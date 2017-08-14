@@ -15,7 +15,7 @@ class vt:
 
   def get_report(self,file_path):
     url = "https://www.virustotal.com/vtapi/v2/file/report"
-    resource = hashlib.sha256(file_path).hexdigest()
+    resource = hashlib.sha256(open(file_path,"r").read()).hexdigest()
     params = {'apikey':self.api_key,'resource':resource}
     headers = {
       "Accept-Encoding":"gzip, deflate",
@@ -24,3 +24,16 @@ class vt:
     response = requests.get(url,params=params,headers=headers) 
     json_response = response.json()
     return json_response
+
+
+if __name__ == '__main__':
+  with open("apikey.txt","r") as f:
+    api = f.read().strip()
+  test = "test.txt"
+  v = vt(api)
+  scan = v.scan_file(test)
+  print scan
+  import time
+  time.sleep(10)
+  report = v.get_report(test)
+  print report
