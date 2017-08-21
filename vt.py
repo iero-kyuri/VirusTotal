@@ -43,3 +43,14 @@ class vt:
     response = requests.post(url,data=params)
     json_response = response.json()
     return json_response
+
+  def get_url_report(self,scan_url):
+    url = "https://www.virustotal.com/vtapi/v2/url/report"
+    headers = {
+      "Accept-Encoding":"gzip, deflate",
+      "User-Agent":"gzip, Kyuri"
+    }
+    params = {'apikey':self.api_key,'resource':scan_url}
+    response = requests.post(url,params=params,headers=headers)
+    json_response = response.json()
+    return json_response
